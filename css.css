@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+body {
+    background: #2d3436;
+    height: 200vh;
+    max-width: 100%;
+    width: 100%;
+}
+section {
+    position: relative;
+    background: #636e72;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.slid, .slider {
+    max-width: 100%;
+    max-height: 100%;
+}
+.slid{
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    position: absolute; 
+    top: 0;
+    right: 100%;
+    transition: ease 1s;
+}
+.next, .prev {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+}
+.next:hover, .prev:hover{
+    transform: scale(1.2);
+    transition: all 0.5s;
+}
+.arrow{
+    border-left: 7px solid rgba(0, 0, 0, 0.4);
+    border-top: 7px solid rgba(0, 0, 0, 0.4);
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    transition: all 0.5s;
+}
+.arrow:hover {
+    border-left: 7px solid rgba(0, 0, 0, 0.6);
+    border-top: 7px solid rgba(0, 0, 0, 0.6);
+    transition: all 0.5s;    
+}
+.next{
+    right: 6%;
+}
+.prev{
+    left: 5%;
+}
+.next .arrow {
+    transform: rotate(135deg);
+}
+.prev .arrow {
+    transform: rotate(-45deg);
+}
+.slickShow{
+    right: 0;
+    transition: all 0.5s;
+}
+.slickHiden{
+    right: -100%;
+    transition: all 0.5s;
+}
+
+.slickPrev{
+    right: 100%;
+    transition: all 0.5s;
+}
+.slid:nth-child(1){
+background-image: url(slid/a.jpg);
+}
+.slid:nth-child(2){
+background-image: url(slid/b.jpg);
+}
+.slid:nth-child(3){
+background-image: url(slid/c.jpg);
+}
+.slid:nth-child(4){
+background-image: url(slid/d.jpg);
+}
+.slid:nth-child(5){
+background-image: url(slid/f.jpg);
+}
+.slid:nth-child(6){
+background-image: url(slid/g.jpg);
+}
+.slid:nth-child(7){
+background-image: url(slid/e.jpg);
+}
+.slid:nth-child(8){
+background-image: url(slid/h.jpg);
+}
+.dot{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    margin: 20px;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: all 0.5s;
+    }
+.dot:hover {
+    transition: all 0.5s;
+    transform: scale(1.2);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.dots{
+    top: 90%;
+    z-index: 2;
+    position: absolute;
+}
