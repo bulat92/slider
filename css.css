@@ -22,10 +22,13 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
-.slid, .slider {
-    max-width: 100%;
+.slider {
+    left: 0;
     max-height: 100%;
+    display: flex;
+    position: absolute;
 }
 .slid{
     width: 100vw;
@@ -35,64 +38,57 @@ section {
     background-size: cover;
     margin: 0;
     padding: 0;
-    position: absolute; 
+     
     top: 0;
-    right: 100%;
+    
     transition: ease 1s;
 }
 .next, .prev {
-    border-radius: 50%;
+    border-radius: 5px;
     width: 50px;
     height: 50px;
-    position: absolute;
+     
     z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.5s;
+    border: solid white 2px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
 }
 .next:hover, .prev:hover{
     transform: scale(1.2);
     transition: all 0.5s;
 }
 .arrow{
-    border-left: 7px solid rgba(0, 0, 0, 0.4);
-    border-top: 7px solid rgba(0, 0, 0, 0.4);
+    background-image: url(slid/svg.svg);
     width: 30px;
     height: 30px;
-    border-radius: 5px;
     transition: all 0.5s;
 }
 .arrow:hover {
-    border-left: 7px solid rgba(0, 0, 0, 0.6);
-    border-top: 7px solid rgba(0, 0, 0, 0.6);
     transition: all 0.5s;    
 }
 .next{
-    right: 6%;
+    background-image: url(slid/a.jpg);
 }
-.prev{
-    left: 5%;
-}
-.next .arrow {
-    transform: rotate(135deg);
-}
-.prev .arrow {
-    transform: rotate(-45deg);
-}
-.slickShow{
-    right: 0;
-    transition: all 0.5s;
-}
-.slickHiden{
-    right: -100%;
-    transition: all 0.5s;
+.prev {
+    background-image: url(slid/h.jpg);
 }
 
-.slickPrev{
-    right: 100%;
-    transition: all 0.5s;
+.control {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 auto;
 }
+.next .arrow {
+    transform: rotate(180deg);
+}
+
 .slid:nth-child(1){
 background-image: url(slid/a.jpg);
 }
@@ -125,11 +121,12 @@ background-image: url(slid/h.jpg);
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.4);
     transition: all 0.5s;
+    border: solid white 2px;
     }
 .dot:hover {
-    transition: all 0.5s;
-    transform: scale(1.2);
-    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 0.5s !important;
+    transform: scale(1.2) !important; 
+    background-color: rgba(0, 0, 0, 0.6) !important;
 }
 .dots{
     top: 90%;
