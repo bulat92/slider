@@ -38,10 +38,7 @@ section {
     background-size: cover;
     margin: 0;
     padding: 0;
-     
     top: 0;
-    
-    transition: ease 1s;
 }
 .next, .prev {
     border-radius: 5px;
@@ -73,7 +70,7 @@ section {
     transition: all 0.5s;    
 }
 .next{
-    background-image: url(slid/a.jpg);
+    background-image: url(slid/b.jpg);
 }
 .prev {
     background-image: url(slid/h.jpg);
@@ -102,13 +99,13 @@ background-image: url(slid/c.jpg);
 background-image: url(slid/d.jpg);
 }
 .slid:nth-child(5){
-background-image: url(slid/f.jpg);
+background-image: url(slid/e.jpg);
 }
 .slid:nth-child(6){
-background-image: url(slid/g.jpg);
+background-image: url(slid/f.jpg);
 }
 .slid:nth-child(7){
-background-image: url(slid/e.jpg);
+background-image: url(slid/g.jpg);
 }
 .slid:nth-child(8){
 background-image: url(slid/h.jpg);
