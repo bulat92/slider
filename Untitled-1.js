@@ -1,94 +1,104 @@
-    "use strict";
+"use strict";
 
-var next    = document.getElementById('next');
-var prev    = document.getElementById('prev');
-var divs    = document.querySelectorAll('.slid');
-var dot     = document.querySelectorAll('.dot');
-var slider  = document.getElementById('slider');
+let next         = document.getElementById('next');
+let prev         = document.getElementById('prev');
+let divs         = document.querySelectorAll('.slid');
+let dotBox       = document.getElementById('dots');
+dotBox.innerHTML = '<div class = "dot"></div>'.repeat(divs.length);
+let dot          = document.querySelectorAll('.dot');
+let slider       = document.getElementById('slider');
 
+let s           = 0;
+let nextArrow   = 1;
+let sek         = 0;
+let prevArrow   = divs.length -1;
+let divStyle    = 'char';
 
-var s           = 0;
-var nextArrow   = 1;
-var sek         = 0;
-var prevArrow   = divs.length -1;
-var divStyle    = 'char';
+for( let d = 0; d < divs.length; d++){
+    dot[d].dataset.dotNumber = d;
+}
 
- 
-dot[s].style.transform = 'scale(1.2)';
-dot[s].style.background = 'rgba(0, 0, 0, 1)';
+changeMainDots()
 slider.style.transition = 'ease-in-out 1s';
 
-        
+function changeMainDots(){
+    dot[s].style.transform = 'scale(1.2)';
+    dot[s].style.background = 'rgba(0, 0, 0, 1)';
+}
 
-        
+function changeDots(){
+    dot[s].style.transform = 'scale(1)';
+    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';
+}    
+function changeButtons(number, direction){
+    divStyle = window.getComputedStyle(divs[number]);
+    direction.style.backgroundImage = divStyle.getPropertyValue('background-image');
+}   
+
 next.onclick = function(){
             
-    dot[s].style.transform = 'scale(1)';
-    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';       
+    changeDots();
+
     s++;
-        if(s == divs.length ){
-            s--;
-                for(s; s > 0; s-- ){
-                    
-                    dot[s].style.transform = 'scale(1)';
-                    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';       
-                }
-        }
+
+    if(s == divs.length ){
+        s = 0
+        changeDots();
+    }
+
     slider.style.left = `-${100*s}%`;
     
     nextArrow++;
-            if(nextArrow > divs.length-1 ){
-                nextArrow = 0;     
-            }
-            divStyle = window.getComputedStyle(divs[nextArrow]);
-            next.style.backgroundImage = divStyle.getPropertyValue('background-image');  
 
+    if(nextArrow > divs.length-1 ){
+        nextArrow = 0;     
+    }
 
-            prevArrow++;
-            if(prevArrow > divs.length-1 ){
-                prevArrow = 0;     
-            }
-            divStyle = window.getComputedStyle(divs[prevArrow]);
-            prev.style.backgroundImage = divStyle.getPropertyValue('background-image');  
+    changeButtons(nextArrow, next);
 
+    prevArrow++;
 
+    if(prevArrow > divs.length-1 ){
+        prevArrow = 0;     
+    }
 
-            
-            dot[s].style.transform = 'scale(1.2)';
-            dot[s].style.background = 'rgba(0, 0, 0, 1)';
-        }
-        prev.onclick = function(){
-            
-            dot[s].style.transform = 'scale(1)';
-            dot[s].style.background = 'rgba(0, 0, 0, 0.4)';       
-            s--;
-            if(s < 0 ){
-                s++;
-                for(s; s < divs.length-1; s++ ){
-                     
-                    dot[s].style.transform = 'scale(1)';
-                    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';       
-                }
-            }
-            slider.style.left = `-${100*s}%`;
+    changeButtons(prevArrow, prev);
+    
+    changeMainDots();
 
-            prevArrow--;
-            if(prevArrow < 0 ){
-                prevArrow = divs.length - 1;     
-            }
-            divStyle = window.getComputedStyle(divs[prevArrow]);
-            prev.style.backgroundImage = divStyle.getPropertyValue('background-image'); 
-            
-            
-            nextArrow--;
-            if(nextArrow < 0 ){
-                nextArrow = divs.length - 1;     
-            }
-            divStyle = window.getComputedStyle(divs[nextArrow]);
-            next.style.backgroundImage = divStyle.getPropertyValue('background-image');     
+}
+prev.onclick = function(){
+        
+    changeDots();       
+    s--;
+    if(s < 0 ){
+        s = divs.length-1; 
+        changeDots();       
+    }
 
- 
-            dot[s].style.transform = 'scale(1.2)';
-            dot[s].style.background = 'rgba(0, 0, 0, 1)';
+    slider.style.left = `-${100*s}%`;
+
+    prevArrow--;
+
+    if(prevArrow < 0 ){
+        prevArrow = divs.length - 1;     
+    }
+    changeButtons(prevArrow, prev);
+        
+    nextArrow--;
+
+    if(nextArrow < 0 ){
+        nextArrow = divs.length - 1;     
+    }
+
+    changeButtons(nextArrow, next);  
+
+    changeMainDots();
+}
+
+dotBox.onmouseover = function (event) {
+    let target = event.target;
+
+    alert(target.dataset.dotNumber);
 }
  

@@ -58,16 +58,16 @@ section {
 }
 .next:hover, .prev:hover{
     transform: scale(1.2);
-    transition: all 0.5s;
+    transition: all 1s;
 }
 .arrow{
     background-image: url(slid/svg.svg);
     width: 30px;
     height: 30px;
-    transition: all 0.5s;
+    transition: all 1s;
 }
 .arrow:hover {
-    transition: all 0.5s;    
+    transition: all 1s;    
 }
 .next{
     background-image: url(slid/b.jpg);
@@ -123,7 +123,7 @@ background-image: url(slid/h.jpg);
 .dot:hover {
     transition: all 0.5s !important;
     transform: scale(1.2) !important; 
-    background-color: rgba(0, 0, 0, 0.6) !important;
+    background-color: rgba(0, 0, 0, 1) !important;
 }
 .dots{
     top: 90%;
