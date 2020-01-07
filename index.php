@@ -22,8 +22,14 @@
         </div>
         <div class="slider" id="slider">
             <?php
-                foreach(glob("slid/*.{jpg}",GLOB_BRACE) as $f)
-                echo '<div class="slid" style = "background-image: url('.$f.')"></div>';
+                $arr=glob("slid/*.{jpg}",GLOB_BRACE);  //массив картинок из файла
+ 
+                echo '<div class="slid" style = "background-image: url('.$arr[count($arr) - 1].')"></div>';
+
+                foreach($arr as $f){
+                    echo '<div class="slid" style = "background-image: url('.$f.')"></div>';
+                }
+                echo '<div class="slid" style = "background-image: url('.$arr[0].')"></div>';
             ?>
         </div>
         <div class="zero"></div>

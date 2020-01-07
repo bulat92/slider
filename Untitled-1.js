@@ -4,7 +4,7 @@ let next         = document.getElementById('next');//правая кнопка
 let prev         = document.getElementById('prev');//левая кнопка
 let divs         = document.querySelectorAll('.slid');//слайд
 let dotBox       = document.getElementById('dots');// каробка с точкаи
-dotBox.innerHTML = '<div class = "dot"></div>'.repeat(divs.length);// создание точек
+dotBox.innerHTML = '<div class = "dot"></div>'.repeat(divs.length - 2);// создание точек
 let dot          = document.querySelectorAll('.dot');// точка
 let slider       = document.getElementById('slider');// каробка с слайдами
 //const LAST       = divs[0];
@@ -15,12 +15,12 @@ let slider       = document.getElementById('slider');// каробка с сла
 //slider.prepend(LAST2);
 
 let s           = 0;// для текущей позиций точки
-let nextArrow   = 1;// значения для изменнеия иконки правой картинки 
+let nextArrow   = 2;// значения для изменнеия иконки правой картинки 
 let sek         = 0;// для интервала 
-let prevArrow   = divs.length -1;// значения для изменнеия иконки левой картинки 
+let prevArrow   = 0;// значения для изменнеия иконки левой картинки 
 let divStyle    = 'char';// 
 
-for( let d = 0; d < divs.length; d++){//
+for( let d = 0; d < dot.length; d++){//добавление дада сет 
     dot[d].dataset.dotNumber = d;//
 }
 
@@ -47,12 +47,15 @@ next.onclick = function(){//
 
     s++;//
 
-    if(s == divs.length ){//
+    if(s == divs.length-2 ){//
+        slider.style.transition = 'none';//
+        slider.style.left = `0`;//
         s = 0//
         changeDots();//
+        slider.style.transition = 'ease-in-out 1s';//
     }
 
-    slider.style.left = `-${100*s}%`;//
+    slider.style.left = `-${100+100*s}%`;//
     
     nextArrow++;//
 
@@ -77,12 +80,15 @@ prev.onclick = function(){//
         
     changeDots();  //     
     s--;//
-    if(s < 0 ){//
-        s = divs.length-1; //
+    if(s = 0 ){//
+        slider.style.transition = 'none';//
+        slider.style.left = `-${100*s+100}%`;//
+        s = divs.length-3; //
         changeDots();      // 
+        slider.style.transition = 'ease-in-out 1s';//
     }
 
-    slider.style.left = `-${100*s}%`;//
+    slider.style.left = `-${100+(100*s)}%`;//
 
     prevArrow--;//
 
