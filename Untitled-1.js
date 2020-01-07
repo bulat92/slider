@@ -1,104 +1,123 @@
 "use strict";
 
-let next         = document.getElementById('next');
-let prev         = document.getElementById('prev');
-let divs         = document.querySelectorAll('.slid');
-let dotBox       = document.getElementById('dots');
-dotBox.innerHTML = '<div class = "dot"></div>'.repeat(divs.length);
-let dot          = document.querySelectorAll('.dot');
-let slider       = document.getElementById('slider');
+let next         = document.getElementById('next');//правая кнопка
+let prev         = document.getElementById('prev');//левая кнопка
+let divs         = document.querySelectorAll('.slid');//слайд
+let dotBox       = document.getElementById('dots');// каробка с точкаи
+dotBox.innerHTML = '<div class = "dot"></div>'.repeat(divs.length);// создание точек
+let dot          = document.querySelectorAll('.dot');// точка
+let slider       = document.getElementById('slider');// каробка с слайдами
+//const LAST       = divs[0];
 
-let s           = 0;
-let nextArrow   = 1;
-let sek         = 0;
-let prevArrow   = divs.length -1;
-let divStyle    = 'char';
+//let LAST2 = LAST.cloneNode(true); // клонировать сообщение
+ 
 
-for( let d = 0; d < divs.length; d++){
-    dot[d].dataset.dotNumber = d;
+//slider.prepend(LAST2);
+
+let s           = 0;// для текущей позиций точки
+let nextArrow   = 1;// значения для изменнеия иконки правой картинки 
+let sek         = 0;// для интервала 
+let prevArrow   = divs.length -1;// значения для изменнеия иконки левой картинки 
+let divStyle    = 'char';// 
+
+for( let d = 0; d < divs.length; d++){//
+    dot[d].dataset.dotNumber = d;//
 }
 
-changeMainDots()
-slider.style.transition = 'ease-in-out 1s';
+changeMainDots()//
+slider.style.transition = 'ease-in-out 1s';//
 
 function changeMainDots(){
-    dot[s].style.transform = 'scale(1.2)';
-    dot[s].style.background = 'rgba(0, 0, 0, 1)';
+    dot[s].style.transform = 'scale(1.2)';//
+    dot[s].style.background = 'rgba(0, 0, 0, 1)';//
 }
 
-function changeDots(){
-    dot[s].style.transform = 'scale(1)';
-    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';
+function changeDots(){//
+    dot[s].style.transform = 'scale(1)';//
+    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';//
 }    
-function changeButtons(number, direction){
-    divStyle = window.getComputedStyle(divs[number]);
-    direction.style.backgroundImage = divStyle.getPropertyValue('background-image');
+function changeButtons(number, direction){//
+    divStyle = window.getComputedStyle(divs[number]);//
+    direction.style.backgroundImage = divStyle.getPropertyValue('background-image');//
 }   
 
-next.onclick = function(){
+next.onclick = function(){//
             
-    changeDots();
+    changeDots();//
 
-    s++;
+    s++;//
 
-    if(s == divs.length ){
-        s = 0
-        changeDots();
+    if(s == divs.length ){//
+        s = 0//
+        changeDots();//
     }
 
-    slider.style.left = `-${100*s}%`;
+    slider.style.left = `-${100*s}%`;//
     
-    nextArrow++;
+    nextArrow++;//
 
-    if(nextArrow > divs.length-1 ){
-        nextArrow = 0;     
+    if(nextArrow > divs.length-1 ){//
+        nextArrow = 0;     //
     }
 
-    changeButtons(nextArrow, next);
+    changeButtons(nextArrow, next);//
 
-    prevArrow++;
+    prevArrow++;//
 
-    if(prevArrow > divs.length-1 ){
-        prevArrow = 0;     
+    if(prevArrow > divs.length-1 ){//
+        prevArrow = 0;     //
     }
 
-    changeButtons(prevArrow, prev);
+    changeButtons(prevArrow, prev);//
     
-    changeMainDots();
+    changeMainDots();//
 
 }
-prev.onclick = function(){
+prev.onclick = function(){//
         
-    changeDots();       
-    s--;
-    if(s < 0 ){
-        s = divs.length-1; 
-        changeDots();       
+    changeDots();  //     
+    s--;//
+    if(s < 0 ){//
+        s = divs.length-1; //
+        changeDots();      // 
     }
 
-    slider.style.left = `-${100*s}%`;
+    slider.style.left = `-${100*s}%`;//
 
-    prevArrow--;
+    prevArrow--;//
 
-    if(prevArrow < 0 ){
-        prevArrow = divs.length - 1;     
+    if(prevArrow < 0 ){//
+        prevArrow = divs.length - 1;  //   
     }
-    changeButtons(prevArrow, prev);
+    changeButtons(prevArrow, prev);//
         
-    nextArrow--;
+    nextArrow--;//
 
-    if(nextArrow < 0 ){
-        nextArrow = divs.length - 1;     
+    if(nextArrow < 0 ){//
+        nextArrow = divs.length - 1;   //  
     }
 
-    changeButtons(nextArrow, next);  
+    changeButtons(nextArrow, next);  //
 
-    changeMainDots();
+    changeMainDots();//
 }
 
 dotBox.onmouseover = function (event) {
-    let target = event.target;
-
-    alert(target.dataset.dotNumber);
+    let target = event.target.dataset.dotNumber;//
+    if(target != undefined && s != target){ // если выбранная точка не равна тикущему положению и определена
+        target = Number(target);
+        if(target < s){
+            target = s - target;
+            for(target; target != 0 ; target--){// перелистывание по навидению 
+                prev.click();
+            }
+        }
+        if(target > s){
+            target = target - s;
+            for(target; target != 0 ; target--){ // перелистывание по навидению 
+                next.click();
+            }
+        }
+    }
 }
  

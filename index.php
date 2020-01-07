@@ -21,17 +21,14 @@
             </div>
         </div>
         <div class="slider" id="slider">
-            <div class="slid"></div>
-            <div class="slid"></div>
-            <div class="slid"></div>
-            <div class="slid"></div>
-            <div class="slid"></div>
-            <div class="slid"></div>
-            <div class="slid"></div>
-            <div class="slid"></div>
+            <?php
+                foreach(glob("slid/*.{jpg}",GLOB_BRACE) as $f)
+                echo '<div class="slid" style = "background-image: url('.$f.')"></div>';
+            ?>
         </div>
         <div class="zero"></div>
     </section>
     <script src="Untitled-1.js"></script>
 </body>
 </html>
+ 
