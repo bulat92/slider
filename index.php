@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css.css">
 </head>
 <body>
-    <section>
+    <section id ="mainSection">
         <div class="dots" id="dots">
              
         </div>

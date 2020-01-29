@@ -49,7 +49,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.5s;
+    transition: ease 0.6s;
     border: solid white 2px;
     background-position: center;
     background-repeat: no-repeat;
@@ -57,17 +57,17 @@ section {
     
 }
 .next:hover, .prev:hover{
-    transform: scale(1.2);
-    transition: all 1s;
+    transform: scale(1.05);
+    transition: ease 0.3s;
 }
 .arrow{
     background-image: url(slid/svg.svg);
     width: 30px;
     height: 30px;
-    transition: all 1s;
+    transition: ease 0.6s;
 }
 .arrow:hover {
-    transition: all 1s;    
+    transition: ease 0.6s;    
 }
 .next{
     background-image: url(slid/b.jpg);
@@ -93,16 +93,15 @@ section {
     margin: 20px;
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.4);
-    transition: all 0.5s;
+    transition: ease 0.6s;
     border: solid white 2px;
     }
 .dot:hover {
-    transition: all 0.5s !important;
-    transform: scale(1.2) !important; 
-    background-color: rgba(0, 0, 0, 1) !important;
+    transition: ease 0.6s !important;
+    background-color: white;
 }
 .dots{
     top: 90%;
     z-index: 2;
     position: absolute;
-}
+} 

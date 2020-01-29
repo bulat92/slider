@@ -1,129 +1,178 @@
 "use strict";
+const nextRight    = document.getElementById('next'),//правая кнопка
+      prevLeft     = document.getElementById('prev'),//левая кнопка
+      slide        = document.querySelectorAll('.slid'),//слайд
+      dotBox       = document.getElementById('dots'),// каробка с точкаи
+      autoIntervalValue = 1000, // Создает переменную с содержанием длительности интерывалва
+      mainSection  = document.getElementById('mainSection'),
+      SlideR       = document.getElementById('slider');// каробка с слайдами
 
-let next         = document.getElementById('next');//правая кнопка
-let prev         = document.getElementById('prev');//левая кнопка
-let divs         = document.querySelectorAll('.slid');//слайд
-let dotBox       = document.getElementById('dots');// каробка с точкаи
-dotBox.innerHTML = '<div class = "dot"></div>'.repeat(divs.length - 2);// создание точек
-let dot          = document.querySelectorAll('.dot');// точка
-let slider       = document.getElementById('slider');// каробка с слайдами
-//const LAST       = divs[0];
-
-//let LAST2 = LAST.cloneNode(true); // клонировать сообщение
- 
-
-//slider.prepend(LAST2);
-
-let s           = 0;// для текущей позиций точки
-let nextArrow   = 2;// значения для изменнеия иконки правой картинки 
-let sek         = 0;// для интервала 
-let prevArrow   = 0;// значения для изменнеия иконки левой картинки 
-let divStyle    = 'char';// 
-
-for( let d = 0; d < dot.length; d++){//добавление дада сет 
-    dot[d].dataset.dotNumber = d;//
+for(let x = 1; x < slide.length-1; x++){
+    let y = document.createElement('div');
+    y.className = "dot";
+    y.dataset.dotNumber = x;
+    dotBox.appendChild(y);
 }
 
-changeMainDots()//
-slider.style.transition = 'ease-in-out 1s';//
+SlideR.style.transition = "ease 0.6s";
 
-function changeMainDots(){
-    dot[s].style.transform = 'scale(1.2)';//
-    dot[s].style.background = 'rgba(0, 0, 0, 1)';//
+const dot          = document.querySelectorAll('.dot');// точка
+
+let dotsNumber     = 0,// для текущей позиций точки
+    nextArrowRight = 2,// значения для изменнеия иконки правой картинки 
+    prevArrowLeft  = 0,// значения для изменнеия иконки левой картинки 
+    positionSlide  = 1;//  
+
+dot[dotsNumber].style.background = "white";    
+
+function changeDotsRight(){//изменения точек на право
+    dot[dotsNumber].style.background = "rgba(0,0,0,0.4)";
+    dotsNumber++;
+    if(dotsNumber==slide.length-2){
+        dotsNumber = 0;
+    }
+    dot[dotsNumber].style.background = "white";
 }
 
-function changeDots(){//
-    dot[s].style.transform = 'scale(1)';//
-    dot[s].style.background = 'rgba(0, 0, 0, 0.4)';//
-}    
-function changeButtons(number, direction){//
-    divStyle = window.getComputedStyle(divs[number]);//
-    direction.style.backgroundImage = divStyle.getPropertyValue('background-image');//
+function changeDotsLeft(){//изменения точек на лево
+    dot[dotsNumber].style.background = "rgba(0,0,0,0.4)"; 
+    dotsNumber--;
+    if(dotsNumber==-1){
+        dotsNumber = slide.length-3;
+    }    
+    dot[dotsNumber].style.background = "white";
 }   
 
-next.onclick = function(){//
-            
-    changeDots();//
-
-    s++;//
-
-    if(s == divs.length-2 ){//
-        slider.style.transition = 'none';//
-        slider.style.left = `0`;//
-        s = 0//
-        changeDots();//
-        slider.style.transition = 'ease-in-out 1s';//
-    }
-
-    slider.style.left = `-${100+100*s}%`;//
+function changeArrowRight(){
     
-    nextArrow++;//
+    nextArrowRight++;
+    prevArrowLeft++;
 
-    if(nextArrow > divs.length-1 ){//
-        nextArrow = 0;     //
+    if(nextArrowRight == slide.length-1){
+        nextArrowRight = 1;
+    }
+    if(prevArrowLeft == slide.length-1){
+        prevArrowLeft = 1;
     }
 
-    changeButtons(nextArrow, next);//
-
-    prevArrow++;//
-
-    if(prevArrow > divs.length-1 ){//
-        prevArrow = 0;     //
-    }
-
-    changeButtons(prevArrow, prev);//
+    nextRight.style.backgroundImage = window.getComputedStyle(slide[ nextArrowRight ]).getPropertyValue('background-image');
+    prevLeft.style.backgroundImage = window.getComputedStyle(slide[ prevArrowLeft ]).getPropertyValue('background-image');
     
-    changeMainDots();//
+}
+function changeArrowLeft(){
+
+    nextArrowRight--;
+    prevArrowLeft--;
+
+    if(nextArrowRight == 0){
+        nextArrowRight = slide.length-2;
+    }
+    if(prevArrowLeft == -1){
+        prevArrowLeft = slide.length-3;
+    }
+
+    nextRight.style.backgroundImage = window.getComputedStyle(slide[ nextArrowRight ]).getPropertyValue('background-image');
+    prevLeft.style.backgroundImage = window.getComputedStyle(slide[ prevArrowLeft ]).getPropertyValue('background-image');
 
 }
-prev.onclick = function(){//
-        
-    changeDots();  //     
-    s--;//
-    if(s = 0 ){//
-        slider.style.transition = 'none';//
-        slider.style.left = `-${100*s+100}%`;//
-        s = divs.length-3; //
-        changeDots();      // 
-        slider.style.transition = 'ease-in-out 1s';//
-    }
-
-    slider.style.left = `-${100+(100*s)}%`;//
-
-    prevArrow--;//
-
-    if(prevArrow < 0 ){//
-        prevArrow = divs.length - 1;  //   
-    }
-    changeButtons(prevArrow, prev);//
-        
-    nextArrow--;//
-
-    if(nextArrow < 0 ){//
-        nextArrow = divs.length - 1;   //  
-    }
-
-    changeButtons(nextArrow, next);  //
-
-    changeMainDots();//
-}
-
 dotBox.onmouseover = function (event) {
     let target = event.target.dataset.dotNumber;//
-    if(target != undefined && s != target){ // если выбранная точка не равна тикущему положению и определена
+    if(target != undefined && positionSlide != target){ // если выбранная точка не равна тикущему положению и определена
         target = Number(target);
-        if(target < s){
-            target = s - target;
-            for(target; target != 0 ; target--){// перелистывание по навидению 
-                prev.click();
+        if(target < positionSlide){
+            target = positionSlide - target;
+            for(target; target != 0 ; target--){// перелистывание по навидению НА точки
+                prevLeft.click();
             }
         }
-        if(target > s){
-            target = target - s;
-            for(target; target != 0 ; target--){ // перелистывание по навидению 
-                next.click();
+        if(target > positionSlide){
+            target = target - positionSlide;
+            for(target; target != 0 ; target--){ // перелистывание по навидению НА точки
+                nextRight.click();
             }
         }
     }
 }
+
  
+
+let nextRightFunc = function(){//Движение слайда по клику
+    
+    clearTimeout(autoMove);//Выключить интервал . Интервал запускаетя на строке 163
+
+    SlideR.style.transition = "ease 0.6s";
+    changeDotsRight();
+    changeArrowRight();
+
+    positionSlide++;
+
+    if(positionSlide == slide.length-1){
+        nextRight.removeEventListener('click', nextRightFunc); // Add event onclick Добавлен
+        SlideR.style.left = `-${ 100*positionSlide }%`;
+        noTransitionRight();
+        positionSlide=1;
+
+    }else{
+        SlideR.style.left = `-${ 100*positionSlide }%`;
+    }
+    autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Зпускаетя после удаления на строке 100. Интервал запускается в первый раз на строке 163
+}
+nextRight.addEventListener('click', nextRightFunc); // Add event onclick Добавлен
+
+
+
+let prevLeftFunc = function(){// Движение слайда по клику
+
+    clearTimeout(autoMove);//Выключить интервал . Интервал запускаетя на строке 163
+
+    SlideR.style.transition = "ease 0.6s";
+    changeDotsLeft();
+    changeArrowLeft();
+
+   
+    positionSlide--;
+
+    if(positionSlide == 0){
+        prevLeft.removeEventListener('click', prevLeftFunc); // Add event onclick Добавлен
+        SlideR.style.left = `-${100*positionSlide}%`;
+        noTransitionLeft()
+        positionSlide = slide.length-2;
+        
+    }else{
+        SlideR.style.left = `-${ 100*positionSlide }%`;
+    }
+
+    autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Зпускаетя после удаления на строке 125. Интервал запускается в первый раз на строке 163
+
+}
+prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Добавлен
+
+
+function noTransitionRight(){
+    let forEndTransitionRight = function(event){
+        SlideR.style.transition = "none";
+        SlideR.style.left = "-100%";
+        SlideR.removeEventListener('transitionend', forEndTransitionRight, false);
+        nextRight.addEventListener('click', nextRightFunc); // Add event onclick Добавлен    
+    }
+    SlideR.addEventListener('transitionend', forEndTransitionRight, false);
+}        
+function noTransitionLeft(){
+    let forEndTransitionLeft = function(event){
+        SlideR.style.transition = "none";
+        SlideR.style.left = "-800%";
+        SlideR.removeEventListener('transitionend', forEndTransitionLeft, false);
+        prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Добавлен    
+    }
+    SlideR.addEventListener('transitionend', forEndTransitionLeft, false);
+}
+let autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Здесь запускается внешний интервал .
+
+
+mainSection.addEventListener('mouseover', function(){//Отключает автопрокрутку слайда при наведений
+    clearTimeout(autoMove);
+});
+
+mainSection.addEventListener('mouseout', function(){
+    autoMove = setTimeout(nextRightFunc,autoIntervalValue); //Включает автопрокрутку 
+});
