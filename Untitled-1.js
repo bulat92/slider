@@ -3,7 +3,6 @@ const nextRight    = document.getElementById('next'),//правая кнопка
       prevLeft     = document.getElementById('prev'),//левая кнопка
       slide        = document.querySelectorAll('.slid'),//слайд
       dotBox       = document.getElementById('dots'),// каробка с точкаи
-      autoIntervalValue = 1000, // Создает переменную с содержанием длительности интерывалва
       mainSection  = document.getElementById('mainSection'),
       SlideR       = document.getElementById('slider');// каробка с слайдами
 
@@ -21,6 +20,7 @@ const dot          = document.querySelectorAll('.dot');// точка
 let dotsNumber     = 0,// для текущей позиций точки
     nextArrowRight = 2,// значения для изменнеия иконки правой картинки 
     prevArrowLeft  = 0,// значения для изменнеия иконки левой картинки 
+    autoIntervalValue = 1600, // Создает переменную с содержанием длительности интерывалва
     positionSlide  = 1;//  
 
 dot[dotsNumber].style.background = "white";    
@@ -171,8 +171,10 @@ let autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Здесь за�
 
 mainSection.addEventListener('mouseover', function(){//Отключает автопрокрутку слайда при наведений
     clearTimeout(autoMove);
+    autoIntervalValue = 1000000;
 });
 
 mainSection.addEventListener('mouseout', function(){
+    autoIntervalValue = 1600;
     autoMove = setTimeout(nextRightFunc,autoIntervalValue); //Включает автопрокрутку 
 });
