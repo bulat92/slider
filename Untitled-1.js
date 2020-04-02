@@ -17,13 +17,16 @@ SlideR.style.transition = "ease 0.6s";
 
 const dot          = document.querySelectorAll('.dot');// точка
 
-let dotsNumber     = 0,// для текущей позиций точки
-    nextArrowRight = 2,// значения для изменнеия иконки правой картинки 
-    prevArrowLeft  = 0,// значения для изменнеия иконки левой картинки 
-    autoIntervalValue = 1600, // Создает переменную с содержанием длительности интерывалва
-    positionSlide  = 1;//  
+let dotsNumber        = 0,// для текущей позиций точки
+    nextArrowRight    = 2,// значения для изменнеия иконки правой картинки 
+    prevArrowLeft     = 0,// значения для изменнеия иконки левой картинки 
+    autoIntervalValue = 1000, // Создает переменную с содержанием длительности интерывалва
+    positionSlide     = 1,
+    slidWidth         = document.documentElement.clientWidth;  
 
 dot[dotsNumber].style.background = "white";    
+
+SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
 
 function changeDotsRight(){//изменения точек на право
     dot[dotsNumber].style.background = "rgba(0,0,0,0.4)";
@@ -108,12 +111,12 @@ let nextRightFunc = function(){//Движение слайда по клику
 
     if(positionSlide == slide.length-1){
         nextRight.removeEventListener('click', nextRightFunc); // Add event onclick Добавлен
-        SlideR.style.left = `-${ 100*positionSlide }%`;
+        SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
         noTransitionRight();
         positionSlide=1;
 
     }else{
-        SlideR.style.left = `-${ 100*positionSlide }%`;
+        SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
     }
     autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Зпускаетя после удаления на строке 100. Интервал запускается в первый раз на строке 163
 }
@@ -134,12 +137,12 @@ let prevLeftFunc = function(){// Движение слайда по клику
 
     if(positionSlide == 0){
         prevLeft.removeEventListener('click', prevLeftFunc); // Add event onclick Добавлен
-        SlideR.style.left = `-${100*positionSlide}%`;
+        SlideR.style.left = `-${window.innerWidth*positionSlide}%`;
         noTransitionLeft()
         positionSlide = slide.length-2;
         
     }else{
-        SlideR.style.left = `-${ 100*positionSlide }%`;
+        SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
     }
 
     autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Зпускаетя после удаления на строке 125. Интервал запускается в первый раз на строке 163
@@ -151,7 +154,7 @@ prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Доба�
 function noTransitionRight(){
     let forEndTransitionRight = function(event){
         SlideR.style.transition = "none";
-        SlideR.style.left = "-100%";
+        SlideR.style.left = `-${window.innerWidth}px`;
         SlideR.removeEventListener('transitionend', forEndTransitionRight, false);
         nextRight.addEventListener('click', nextRightFunc); // Add event onclick Добавлен    
     }
@@ -160,7 +163,7 @@ function noTransitionRight(){
 function noTransitionLeft(){
     let forEndTransitionLeft = function(event){
         SlideR.style.transition = "none";
-        SlideR.style.left = "-800%";
+        SlideR.style.left = `-${window.innerWidth*(slide.length-2)}px`;
         SlideR.removeEventListener('transitionend', forEndTransitionLeft, false);
         prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Добавлен    
     }
@@ -178,3 +181,12 @@ mainSection.addEventListener('mouseout', function(){
     autoIntervalValue = 1600;
     autoMove = setTimeout(nextRightFunc,autoIntervalValue); //Включает автопрокрутку 
 });
+
+SlideR.addEventListener("touchmove", handleMove, false);
+
+function handleMove(event){
+  
+    console.log(event.touches[0]);
+    SlideR.style.left =`-${ 100*positionSlide+event.touches[0].clientX}%`;
+    
+}
