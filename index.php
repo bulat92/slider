@@ -10,7 +10,6 @@
 <body>
     <section id ="mainSection">
         <div class="dots" id="dots">
-<<<<<<< HEAD
             <?php
             $arr=glob("slid/*.{jpg}",GLOB_BRACE);//ДОСТАЕМ массив картинок из файла
 
@@ -18,9 +17,6 @@
                 echo '<div class="dot" data-dot-number="'.$a.'")"></div>';
             } 
             ?>
-=======
-             
->>>>>>> 919d268bfe571616a4f0e4602485f98b90cfe532
         </div>
         <div class="control">
             <div class="prev" id="prev">
@@ -32,11 +28,6 @@
         </div>
         <div class="slider" id="slider">
             <?php
-<<<<<<< HEAD
-=======
-                $arr=glob("slid/*.{jpg}",GLOB_BRACE);  //массив картинок из файла
- 
->>>>>>> 919d268bfe571616a4f0e4602485f98b90cfe532
                 echo '<div class="slid" style = "background-image: url('.$arr[count($arr) - 1].')"></div>';
 
                 foreach($arr as $f){
