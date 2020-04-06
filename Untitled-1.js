@@ -11,7 +11,7 @@ const nextRight    = document.getElementById('next'),//правая кнопка
 let dotsNumber        = 0,// для текущей позиций точки
     nextArrowRight    = 2,// значения для изменнеия иконки правой картинки 
     prevArrowLeft     = 0,// значения для изменнеия иконки левой картинки 
-    autoIntervalValue = 2000, // Создает переменную с содержанием длительности интерывалва
+    autoIntervalValue = 7000, // Создает переменную с содержанием длительности интерывалва
     positionSlide     = 1,
     startTouchValue   = 0,
     endTouchValue     = 0,
@@ -25,7 +25,7 @@ let dotsNumber        = 0,// для текущей позиций точки
     dotBox.appendChild(y);
 }*/
 
-SlideR.style.transition = "ease 0.6s";
+SlideR.style.transition = "ease 6s";
 
 dot[dotsNumber].style.background = "white";    
 
@@ -106,7 +106,7 @@ let nextRightFunc = function(){//Движение слайда по клику
     
     clearTimeout(autoMove);//Выключить интервал
 
-    SlideR.style.transition = "ease 0.6s";
+    SlideR.style.transition = "ease 6s";
     changeDotsRight();
     changeArrowRight();
 
@@ -133,7 +133,7 @@ let prevLeftFunc = function(){// Движение слайда по клику
 
     clearTimeout(autoMove);//Выключить интервал
 
-    SlideR.style.transition = "ease 0.6s";
+    SlideR.style.transition = "ease 6s";
     changeDotsLeft();
     changeArrowLeft();
 
@@ -207,7 +207,7 @@ function handleStart(event){
 
 SlideR.addEventListener("touchend", touchend, false);
 function touchend(event){
-    SlideR.style.transition = "ease 0.6s";
+    SlideR.style.transition = "ease 6s";
     endTouchValue = event.changedTouches[0].clientX;
     
 
