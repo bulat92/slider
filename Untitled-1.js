@@ -8,14 +8,15 @@ const nextRight    = document.getElementById('next'),//правая кнопка
       dot          = document.querySelectorAll('.dot');// МАССИВ с точками
 
 
-let dotsNumber        = 0,// для текущей позиций точки
-    nextArrowRight    = 2,// значения для изменнеия иконки правой картинки 
-    prevArrowLeft     = 0,// значения для изменнеия иконки левой картинки 
-    autoIntervalValue = 7000, // Создает переменную с содержанием длительности интерывалва
-    positionSlide     = 1,
-    startTouchValue   = 0,
-    endTouchValue     = 0,
-    okForAutoMove     = true;// одобряет афтопрокрутку после того как указатель за пределами
+let dotsNumber         = 0,// для текущей позиций точки
+    nextArrowRight     = 2,// значения для изменнеия иконки правой картинки 
+    prevArrowLeft      = 0,// значения для изменнеия иконки левой картинки 
+    autoIntervalValue  = 3000, // Создает переменную с содержанием длительности интерывалва
+    positionSlide      = 1,
+    startTouchValue    = 0,
+    endTouchValue      = 0,
+    okForAutoMove      = true,
+    transitionDuration = "ease 2s" ;// одобряет афтопрокрутку после того как указатель за пределами
   
 
 /*for(let x = 1; x < slide.length-1; x++){ сдесь создавались точки для навигатция. 
@@ -25,7 +26,7 @@ let dotsNumber        = 0,// для текущей позиций точки
     dotBox.appendChild(y);
 }*/
 
-SlideR.style.transition = "ease 6s";
+SlideR.style.transition = transitionDuration;
 
 dot[dotsNumber].style.background = "white";    
 
@@ -106,14 +107,15 @@ let nextRightFunc = function(){//Движение слайда по клику
     
     clearTimeout(autoMove);//Выключить интервал
 
-    SlideR.style.transition = "ease 6s";
+    SlideR.style.transition = transitionDuration;
     changeDotsRight();
     changeArrowRight();
 
     positionSlide++;
 
     if(positionSlide == slide.length-1){
-        nextRight.removeEventListener('click', nextRightFunc); // Add event onclick Добавлен
+        nextRight.removeEventListener('click', nextRightFunc); // Add event onclick Удален
+        removeTouchEvent();//удаления сенсорныйх событий
         SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
         noTransitionRight();
         positionSlide=1;
@@ -133,7 +135,7 @@ let prevLeftFunc = function(){// Движение слайда по клику
 
     clearTimeout(autoMove);//Выключить интервал
 
-    SlideR.style.transition = "ease 6s";
+    SlideR.style.transition = transitionDuration;
     changeDotsLeft();
     changeArrowLeft();
 
@@ -141,7 +143,8 @@ let prevLeftFunc = function(){// Движение слайда по клику
     positionSlide--;
 
     if(positionSlide == 0){
-        prevLeft.removeEventListener('click', prevLeftFunc); // Add event onclick Добавлен
+        prevLeft.removeEventListener('click', prevLeftFunc); // Add event onclick удален
+        removeTouchEvent();//удаления сенсорныйх событий
         SlideR.style.left = `-${window.innerWidth*positionSlide}%`;
         noTransitionLeft()
         positionSlide = slide.length-2;
@@ -161,7 +164,8 @@ function noTransitionRight(){
         SlideR.style.transition = "none";
         SlideR.style.left = `-${window.innerWidth}px`;
         SlideR.removeEventListener('transitionend', forEndTransitionRight, false);
-        nextRight.addEventListener('click', nextRightFunc); // Add event onclick Добавлен    
+        nextRight.addEventListener('click', nextRightFunc); // Add event onclick Добавлен
+        addTouchEvent();//добавление сенсорных событий   
     }
     SlideR.addEventListener('transitionend', forEndTransitionRight, false);
 }        
@@ -170,7 +174,8 @@ function noTransitionLeft(){
         SlideR.style.transition = "none";
         SlideR.style.left = `-${window.innerWidth*(slide.length-2)}px`;
         SlideR.removeEventListener('transitionend', forEndTransitionLeft, false);
-        prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Добавлен    
+        prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Добавлен
+        addTouchEvent();//добавление сенсорных событий    
     }
     SlideR.addEventListener('transitionend', forEndTransitionLeft, false);
 }
@@ -207,7 +212,7 @@ function handleStart(event){
 
 SlideR.addEventListener("touchend", touchend, false);
 function touchend(event){
-    SlideR.style.transition = "ease 6s";
+    SlideR.style.transition = transitionDuration;
     endTouchValue = event.changedTouches[0].clientX;
     
 
@@ -215,14 +220,13 @@ function touchend(event){
         if((startTouchValue - endTouchValue )>=(window.innerWidth/3)){// прокрутка в лево
             nextRight.click();
         }else{
-            SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
+            SlideR.style.left = `-${window.innerWidth*positionSlide}px`;
         }
-        autoMove = setTimeout(nextRightFunc,autoIntervalValue);
     }else{
         if((endTouchValue - startTouchValue )>=(window.innerWidth/3)){// прокрутка в лево
             prevLeft.click();
         }else{
-            SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
+            SlideR.style.left = `-${window.innerWidth*positionSlide}px`;
         }   
     }
     autoMove = setTimeout(nextRightFunc,autoIntervalValue);
@@ -234,6 +238,15 @@ function handleMove(event){
 
 
     SlideR.style.left =`-${ (window.innerWidth*positionSlide) + (startTouchValue - event.touches[0].clientX)}px`;
-    
+}
 
+function removeTouchEvent(){//эта функция удаляет сенсорные события во время переходов от первого слайда к последнему.
+    SlideR.removeEventListener("touchmove", handleMove, false);
+    SlideR.removeEventListener("touchend", touchend, false);
+    SlideR.removeEventListener("touchstart", handleStart, false);
+}
+function addTouchEvent(){//эта функция добовляет сенсорные события во время переходов от первого слайда к последнему.
+    SlideR.addEventListener("touchmove", handleMove, false);
+    SlideR.addEventListener("touchend", touchend, false);
+    SlideR.addEventListener("touchstart", handleStart, false);
 }
