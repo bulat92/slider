@@ -11,17 +11,17 @@ const nextRight    = document.getElementById('next'),//правая кнопка
 let dotsNumber         = 0,// для текущей позиций точки
     nextArrowRight     = 2,// значения для изменнеия иконки правой картинки 
     prevArrowLeft      = 0,// значения для изменнеия иконки левой картинки 
-    autoIntervalValue  = 5000, // Создает переменную с содержанием длительности интерывалва
+    autoIntervalValue  = 5000, // Создает переменную с содержанием длительности интервала
     positionSlide      = 1,
     startTouchValue    = 0,
     endTouchValue      = 0,
     okForAutoMove      = true,
     forFocus           = false,
     autoMove          = 0,
-    transitionDuration = "ease 2s" ;// одобряет афтопрокрутку после того как указатель за пределами
+    transitionDuration = "ease 2s" ;// одобряет автопрокрутку после того как указатель за пределами
   
 
-/*for(let x = 1; x < slide.length-1; x++){ сдесь создавались точки для навигатция. 
+/*for(let x = 1; x < slide.length-1; x++){ здесь создавались точки для навигаций. 
     let y = document.createElement('div'); Для того чтоб разрузить JS файл было решено перекинуть все в PHP 
     y.className = "dot";
     y.dataset.dotNumber = x;
@@ -86,17 +86,17 @@ function changeArrowLeft(){
 }
 dotBox.onmouseover = function (event) {
     let target = event.target.dataset.dotNumber;//
-    if(target != undefined && positionSlide != target){ // если выбранная точка не равна тикущему положению и определена
+    if(target != undefined && positionSlide != target){ // если выбранная точка не равна текущему положению и определена
         target = Number(target);
         if(target < positionSlide){
             target = positionSlide - target;
-            for(target; target != 0 ; target--){// перелистывание по навидению НА точки
+            for(target; target != 0 ; target--){// перелистывание по наведению НА точки
                 prevLeft.click();
             }
         }
         if(target > positionSlide){
             target = target - positionSlide;
-            for(target; target != 0 ; target--){ // перелистывание по навидению НА точки
+            for(target; target != 0 ; target--){ // перелистывание по наведению НА точки
                 nextRight.click();
             }
         }
@@ -197,7 +197,7 @@ mainSection.addEventListener('mouseout', function(){
 });
 
 
-SlideR.addEventListener("touchstart", handleStart, false);// От этой страки далее обработка событий касания
+SlideR.addEventListener("touchstart", handleStart, false);// От этой строки далее обработчик событий касания
 
 function handleStart(event){
     SlideR.style.transition = "none";
@@ -240,13 +240,13 @@ function removeTouchEvent(){//эта функция удаляет сенсор�
     SlideR.removeEventListener("touchend", touchend, false);
     SlideR.removeEventListener("touchstart", handleStart, false);
 }
-function addTouchEvent(){//эта функция добовляет сенсорные события во время переходов от первого слайда к последнему.
+function addTouchEvent(){//эта функция добавляет сенсорные события во время переходов от первого слайда к последнему.
     SlideR.addEventListener("touchmove", handleMove, false);
     SlideR.addEventListener("touchend", touchend, false);
     SlideR.addEventListener("touchstart", handleStart, false);
 }
 
-window.addEventListener("blur", objectOnblur);   //отключение ввсех интервалов при смене фокуса
+window.addEventListener("blur", objectOnblur);   //отключение всех интервалов при смене фокуса
 
 function objectOnblur(){
     clearTimeout(autoMove);//Выключить интервал
