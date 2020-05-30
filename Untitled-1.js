@@ -11,23 +11,30 @@ const nextRight    = document.getElementById('next'),//правая кнопка
 let dotsNumber         = 0,// для текущей позиций точки
     nextArrowRight     = 2,// значения для изменнеия иконки правой картинки 
     prevArrowLeft      = 0,// значения для изменнеия иконки левой картинки 
-    autoIntervalValue  = 5000, // Создает переменную с содержанием длительности интерывалва
+    autoIntervalValue  = 1100, // Создает переменную с содержанием длительности интервала
+    autoTouchInterval  = 10000,
     positionSlide      = 1,
     startTouchValue    = 0,
     endTouchValue      = 0,
-    okForAutoMove      = true,
+    okForAutoMove      = true,// одобряет автопрокрутку после того как указатель за пределами
     forFocus           = false,
     autoMove          = 0,
-    transitionDuration = "ease 2s" ;// одобряет афтопрокрутку после того как указатель за пределами
+    transitionDuration = "ease 1s" ;
   
 
-/*for(let x = 1; x < slide.length-1; x++){ сдесь создавались точки для навигатция. 
+/*for(let x = 1; x < slide.length-1; x++){ здесь создавались точки для навигаций. 
     let y = document.createElement('div'); Для того чтоб разрузить JS файл было решено перекинуть все в PHP 
     y.className = "dot";
     y.dataset.dotNumber = x;
     dotBox.appendChild(y);
 }*/
 
+function restartAutoMoving(){
+    if(okForAutoMove){
+        clearTimeout(autoMove);
+        autoMove = setTimeout(nextRightFunc,autoIntervalValue);
+    }
+}
 SlideR.style.transition = transitionDuration;
 
 dot[dotsNumber].style.background = "white";    
@@ -86,17 +93,17 @@ function changeArrowLeft(){
 }
 dotBox.onmouseover = function (event) {
     let target = event.target.dataset.dotNumber;//
-    if(target != undefined && positionSlide != target){ // если выбранная точка не равна тикущему положению и определена
+    if(target != undefined && positionSlide != target){ // если выбранная точка не равна текущему положению и определена
         target = Number(target);
         if(target < positionSlide){
             target = positionSlide - target;
-            for(target; target != 0 ; target--){// перелистывание по навидению НА точки
+            for(target; target != 0 ; target--){// перелистывание по наведению НА точки
                 prevLeft.click();
             }
         }
         if(target > positionSlide){
             target = target - positionSlide;
-            for(target; target != 0 ; target--){ // перелистывание по навидению НА точки
+            for(target; target != 0 ; target--){ // перелистывание по наведению НА точки
                 nextRight.click();
             }
         }
@@ -107,8 +114,6 @@ dotBox.onmouseover = function (event) {
 
 let nextRightFunc = function(){//Движение слайда по клику
     
-    clearTimeout(autoMove);//Выключить интервал
-
     SlideR.style.transition = transitionDuration;
     changeDotsRight();
     changeArrowRight();
@@ -124,18 +129,14 @@ let nextRightFunc = function(){//Движение слайда по клику
     }else{
         SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
     }
-    if(okForAutoMove){
-    }
     
-    autoMove = setTimeout(nextRightFunc,autoIntervalValue);
+    restartAutoMoving();
 }
 nextRight.addEventListener('click', nextRightFunc); // Add event onclick Добавлен
 
 
 
 let prevLeftFunc = function(){// Движение слайда по клику
-
-    clearTimeout(autoMove);//Выключить интервал
 
     SlideR.style.transition = transitionDuration;
     changeDotsLeft();
@@ -154,10 +155,8 @@ let prevLeftFunc = function(){// Движение слайда по клику
     }else{
         SlideR.style.left = `-${ window.innerWidth*positionSlide }px`;
     }
-    if(okForAutoMove){
-    }
   
-    autoMove = setTimeout(nextRightFunc,autoIntervalValue);
+    restartAutoMoving();
 }
 prevLeft.addEventListener('click', prevLeftFunc); // Add event onclick Добавлен
 
@@ -182,22 +181,35 @@ function noTransitionLeft(){
     }
     SlideR.addEventListener('transitionend', forEndTransitionLeft, false);
 }
-autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Здесь запускается внешний интервал /////////////////////////////////////////////////////////////////////////////////////////////////////////////.
+autoMove = setTimeout(nextRightFunc, autoIntervalValue); // Здесь запускается интервал dthdst ********************************************
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////
+/////////////////Отключает автопрокрутку слайда при наведений
+/////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-mainSection.addEventListener('mouseover', function(){//Отключает автопрокрутку слайда при наведений
-    clearTimeout(autoMove);
-    okForAutoMove = false; //запрещает прокрутку
+mainSection.addEventListener('mouseenter', function(){//Отключает автопрокрутку слайда при наведений
+    if(window.innerWidth > 720){
+        clearTimeout(autoMove);
+        okForAutoMove = false; //запрещает прокрутку
+    } 
 });
 
-mainSection.addEventListener('mouseout', function(){
-    autoMove = setTimeout(nextRightFunc,autoIntervalValue); //Включает автопрокрутку 
+mainSection.addEventListener('mouseleave', function(){
     okForAutoMove = true; //разрешает авто прокрутку 
-
+    restartAutoMoving();//Включает автопрокрутку 
 });
 
 
-SlideR.addEventListener("touchstart", handleStart, false);// От этой страки далее обработка событий касания
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////
+/////////////////// От этой строки далее обработчик событий касания
+/////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+SlideR.addEventListener("touchstart", handleStart, false);// От этой строки далее обработчик событий касания
 
 function handleStart(event){
     SlideR.style.transition = "none";
@@ -209,9 +221,8 @@ SlideR.addEventListener("touchend", touchend, false);
 function touchend(event){
     SlideR.style.transition = transitionDuration;
     endTouchValue = event.changedTouches[0].clientX;
-    clearTimeout(autoMove);//Выключить интервал
+    clearTimeout(autoMove);
     
-
     if(startTouchValue>endTouchValue){
         if((startTouchValue - endTouchValue )>=(window.innerWidth/3)){// прокрутка в лево
             nextRight.click();
@@ -225,6 +236,8 @@ function touchend(event){
             SlideR.style.left = `-${window.innerWidth*positionSlide}px`;
         }   
     }
+    clearTimeout(autoMove);
+    autoMove = setTimeout(nextRightFunc, autoTouchInterval);
 }
 
 SlideR.addEventListener("touchmove", handleMove, false);
@@ -240,13 +253,17 @@ function removeTouchEvent(){//эта функция удаляет сенсор�
     SlideR.removeEventListener("touchend", touchend, false);
     SlideR.removeEventListener("touchstart", handleStart, false);
 }
-function addTouchEvent(){//эта функция добовляет сенсорные события во время переходов от первого слайда к последнему.
+function addTouchEvent(){//эта функция добавляет сенсорные события во время переходов от первого слайда к последнему.
     SlideR.addEventListener("touchmove", handleMove, false);
     SlideR.addEventListener("touchend", touchend, false);
     SlideR.addEventListener("touchstart", handleStart, false);
 }
-
-window.addEventListener("blur", objectOnblur);   //отключение ввсех интервалов при смене фокуса
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////
+//////////////отключение скриптов при смене страницы
+//////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+window.addEventListener("blur", objectOnblur);   //отключение всех интервалов при смене фокуса
 
 function objectOnblur(){
     clearTimeout(autoMove);//Выключить интервал
