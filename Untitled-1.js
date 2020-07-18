@@ -11,23 +11,15 @@ const nextRight    = document.getElementById('next'),//правая кнопка
 let dotsNumber         = 0,// для текущей позиций точки
     nextArrowRight     = 2,// значения для изменнеия иконки правой картинки 
     prevArrowLeft      = 0,// значения для изменнеия иконки левой картинки 
-<<<<<<< HEAD
     autoIntervalValue  = 1100, // Создает переменную с содержанием длительности интервала
     autoTouchInterval  = 10000,
-=======
-    autoIntervalValue  = 5000, // Создает переменную с содержанием длительности интервала
->>>>>>> 122cf3fbb9d8dde3045674b6ebde23e88f512f82
     positionSlide      = 1,
     startTouchValue    = 0,
     endTouchValue      = 0,
     okForAutoMove      = true,// одобряет автопрокрутку после того как указатель за пределами
     forFocus           = false,
     autoMove          = 0,
-<<<<<<< HEAD
     transitionDuration = "ease 1s" ;
-=======
-    transitionDuration = "ease 2s" ;// одобряет автопрокрутку после того как указатель за пределами
->>>>>>> 122cf3fbb9d8dde3045674b6ebde23e88f512f82
   
 
 /*for(let x = 1; x < slide.length-1; x++){ здесь создавались точки для навигаций. 
@@ -210,7 +202,6 @@ mainSection.addEventListener('mouseleave', function(){
 });
 
 
-<<<<<<< HEAD
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////
 /////////////////// От этой строки далее обработчик событий касания
@@ -218,8 +209,6 @@ mainSection.addEventListener('mouseleave', function(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-=======
->>>>>>> 122cf3fbb9d8dde3045674b6ebde23e88f512f82
 SlideR.addEventListener("touchstart", handleStart, false);// От этой строки далее обработчик событий касания
 
 function handleStart(event){
@@ -269,15 +258,11 @@ function addTouchEvent(){//эта функция добавляет сенсор
     SlideR.addEventListener("touchend", touchend, false);
     SlideR.addEventListener("touchstart", handleStart, false);
 }
-<<<<<<< HEAD
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////
 //////////////отключение скриптов при смене страницы
 //////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-=======
-
->>>>>>> 122cf3fbb9d8dde3045674b6ebde23e88f512f82
 window.addEventListener("blur", objectOnblur);   //отключение всех интервалов при смене фокуса
 
 function objectOnblur(){
